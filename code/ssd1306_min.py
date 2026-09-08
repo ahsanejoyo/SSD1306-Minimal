@@ -20,7 +20,7 @@ class SSD1306(framebuf.FrameBuffer):
             0xA1,        # Segment re-map (Column 127 mapped to SEG0)
             0xA8, self.height - 1, # Set multiplex ratio
             0xC8,        # COM output scan direction
-            0xD3, 0x00,  # DIsplay offset
+            0xD3, 0x00,  # Display offset
             0xDA, 0x02 if self.width > 2 * self.height else 0x12, # COM pins configuration
             0xD5, 0x80,  # Display clock divide ratio / oscillator frequency
             0xD9, 0xF1,  # Pre-charge Pperiod
