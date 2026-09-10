@@ -30,6 +30,9 @@ CHRG_PUMP_CTRL1 = const(0x8D)
 CHRG_PUMP_CTRL2 = const(0x14)  # Charge pump control (Enables charge pump)
 DISP_ON = const(0xAF)          # Display ON
 
+COL_ADDR = const(0x21)
+PAGE_ADDR = const(0x22)
+I2C_ADDR = const(0x3c)
 
 # BUILT-IN MINIMAL SSD1306 DRIVER (I2C)
 class SSD1306(framebuf.FrameBuffer):
@@ -51,13 +54,13 @@ class SSD1306(framebuf.FrameBuffer):
             self.write_cmd(cmd) # Current command is written directly to screen/display chip
 
     def show(self): # Function to take drawn pixels sitting in RAM and display them on screen
-        self.write_cmd(0x21); self.write_cmd(0); self.write_cmd(self.width - 1)
-        self.write_cmd(0x22); self.write_cmd(0); self.write_cmd(self.pages - 1)
+        self.write_cmd(COL_ADDR); self.write_cmd(0); self.write_cmd(self.width - 1)
+        self.write_cmd(PAGE_ADDR); self.write_cmd(0); self.write_cmd(self.pages - 1)
         self.write_framebuf() # sends byte array from RAM to display chip
 
 class SSD1306_I2C(SSD1306): # SSD1306 class called here and specified to work w/ I2C
 
-    def __init__(self, width, height, i2c, addr=0x3C):
+    def __init__(self, width, height, i2c, addr=I2C_ADDR):
         self.i2c, self.addr = i2c, addr
         super().__init__(width, height)
 
